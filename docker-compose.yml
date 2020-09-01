@@ -1,13 +1,5 @@
 version: '3.3'
 services:
-  dev-ssl:
-    image: lightster/dev-ssl:0.1.0
-    restart: "no"
-    volumes:
-      - ./data/ssl/certs:/cert
-    environment:
-      DOMAIN: ${DOMAIN:-b.com}
-
   buoy:
     image: kelvineducation/nginx-envsubst:0.2.1
     restart: unless-stopped
@@ -15,6 +7,7 @@ services:
       - ./data/ssl/certs:/etc/ssl/certs
       - ./docker/web-proxy/nginx/conf.d/home.conf:/etc/nginx/conf.d/home.conf.envsubst
       - ./:/etc/nginx/map.d
+      - ./public:/var/www/html
     ports:
       - "80:80"
       - "443:443"
